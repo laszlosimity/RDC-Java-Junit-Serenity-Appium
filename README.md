@@ -3,6 +3,8 @@
 
 This code is provided on an "AS-IS” basis without warranty of any kind, either express or implied, including without limitation any implied warranties of condition, uninterrupted use, merchantability, fitness for a particular purpose, or non-infringement. Your tests and testing environments may require you to modify this framework. Issues regarding this framework should be submitted through GitHub. For questions regarding Sauce Labs integration, please see the Sauce Labs documentation at https://wiki.saucelabs.com/. This framework is not maintained by Sauce Labs Support.
 
+This framework will execute some basic Appium web tests against the Sauce Labs RDC, and update the test status on the platform at the end. It should be noted that Serenity has significant limitations with parallel running. Whilst it is possible fork and batch your tests to run concurrently, it is currently only possible to do this at the test level, and not for different capability sets. If you need to run your tests agianst multiple devices concurrently, you will have to spawn multiple mvn commands with alternate serenity.properties files (or POM, or command line).
+
 ### Environment Setup
 
 1. Global Dependencies
@@ -11,12 +13,7 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
     ```
     $ brew install maven
     ```
-2. Sauce Labs Credentials
-    * In the terminal, export your Sauce Labs credentials as environmental variables:
-    ```
-    $ export TESTOBJECT_API_KEY=<your TestObject API key>
-    ```
-3. Project Dependencies
+2. Project Dependencies
     * Check that packages are available
     ```
     $ cd RDC-Java-Junit-Selenium
@@ -26,12 +23,15 @@ This code is provided on an "AS-IS” basis without warranty of any kind, either
     ```
     $ mvn versions:display-dependency-updates
     ```
-    
+3. Serenity.properties
+   This file contains the configuration you will need to edit to get your script working. Any K:V pairs you enter with the prefix saucelabs_ will end up as part of the capabilities set. This is useful for things like browserName (saucelabs_browserName), deviceName, (saucelabs_deviceName) etc. You must specify the testobject_api_key as saucelabs_testobject_api_key in order for the code to function.
+   
+   
 ### Running Tests
 
-#####Testing in Parallel:
+#####Testing
 ```
-$ mvn test
+$ mvn verify
 ```
 [Sauce Labs RDC Dashboard](https://app.testobject.com)
 
